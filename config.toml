@@ -1,4 +1,4 @@
-baseURL = "https://danysk.github.io/slides-2025-unito-progmob-collektive"
+baseURL = "https://danysk.github.io/slides-2026-unito-progmob-collektive"
 languageCode = "en-us"
 title = "Collektive: Aggregate programming in Kotlin Multiplatform"
 disableKinds = ["sitemap", "RSS"]
