@@ -1,0 +1,1285 @@
+<!DOCTYPE html><html lang="en"><head>
+	<meta name="generator" content="Hugo 0.158.0">
+    <meta charset="utf-8">
+<title>Collektive: Aggregate programming in Kotlin Multiplatform</title>
+<meta name="description" content="Collektive: Aggregate programming in Kotlin Multiplatform">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/slides-2025-unito-progmob-collektive/reveal-js/dist/reset.css">
+<link rel="stylesheet" href="/slides-2025-unito-progmob-collektive/reveal-js/dist/reveal.css">
+  <link rel="stylesheet" href="/slides-2025-unito-progmob-collektive/css/custom-theme.min.4e69c0b26db779af19adcc4109050936b3f7004704815bec5f52b41faf99d4b5.css" id="theme"><link rel="stylesheet" href="/slides-2025-unito-progmob-collektive/highlight-js/solarized-dark.min.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oxygen Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu Mono" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/gh/DanySK/css-blur-animation/blur.css" rel="stylesheet" crossorigin="anonymous">
+
+<script src="https://kit.fontawesome.com/81ac037be0.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <section><h1 id="collektive-aggregate-programming-in-kotlin-multiplatform">Collektive: Aggregate programming in Kotlin Multiplatform</h1>
+<h3 id="danilo-pianini"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini — danilo.pianini@unibo.it</a></h3>
+<h4 id="seminar-in-programmazione-di-sistemi-mobile--università-di-torino">Seminar in “Programmazione di Sistemi Mobile” @ Università di Torino</h4>
+</section><section>
+<h1 id="introduction">Introduction</h1>
+</section><section>
+<h2 id="target-systems">Target systems</h2>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><p><img src="target%20system.png" alt="AI-generated target system"></p>
+</div>
+<div class="col "><ul>
+<li><em>Networked</em> systems</li>
+<li><em>Heterogeneous</em> devices</li>
+<li><em>Unreliable communication</em></li>
+<li>No topology assumptions
+<ul>
+<li>Usually, the worst case is a <em>mesh-like topology</em> with <em>no clear coordinator</em></li>
+<li>the topology <em>changes dynamically</em></li>
+</ul>
+</li>
+<li>Devices are possibly <em>situated</em></li>
+<li>Possibly multiple network technologies to be used opportunistically
+<ul>
+<li>(e.g., Bluetooth, Wi-Fi, 5G, etc.)</li>
+</ul>
+</li>
+</ul>
+</div></div>
+</div>
+</section><section>
+<p><video width="120%" height="120%" autoplay="" controls="" loop=""><source data-src="https://danysk.github.io/Slides-2019-OYM/video/stampede.mp4" type="video/webm"></video></p>
+</section><section>
+<h2 id="self-organising-systems">Self-organising systems</h2>
+<p>One way to tackle these challenges is through systems that <em>self-organise</em>.</p>
+<ul>
+<li><em>Self-organisation</em> is a process in which a system spontaneously organizes itself into a structured state without external control.</li>
+<li>It is a <strong>bottom-up</strong> process in which local interactions among components lead to the <strong>emergence</strong> of global patterns or structures.</li>
+<li>Self-organisation is often observed in <em>natural systems</em>, such as biological organisms, ecosystems, and social systems.</li>
+<li>It can also be applied to artificial systems, such as robotics, distributed computing, and complex networks.</li>
+</ul>
+</section><section>
+<div id="div1" style="width: 720px; float: left; overflow: hidden;">
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/ants.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;">
+</div>
+<div id="div2" style="width: 720px; float: left; overflow: hidden;">
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/termites.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;">
+</div>
+<div id="div3" style="width: 720px; float: left; overflow: hidden;">
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/firefly.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;">
+</div>
+<div id="div4" style="width: 720px; float: left; overflow: hidden;">
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/ecosystem.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;">
+</div>
+</section><section>
+<iframe width="1920" height="950" src="https://www.youtube.com/embed/ZHpu7ngQxwE?si=YPGltxUIp5QtcOlV" autoplay="true" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
+</iframe>
+</section><section>
+<h2 id="engineering-self-organisation">Engineering self-organisation</h2>
+<ul>
+<li>Self-organisation is <strong>very hard to engineer</strong></li>
+<li>The system properties are built <strong>bottom-up</strong> from <strong>local interactions</strong></li>
+<li>Even worse, even when a self-organizing system has been built and verified,
+it is extremely hard to <strong>reuse</strong> it in a different context</li>
+</ul>
+<h3 id="where-is-the-engineering">Where is the <em>engineering</em>?</h3>
+<p>There are properties that we cannot renounce:</p>
+<ul>
+<li><em>Top-down design</em></li>
+<li><em>Modularity</em></li>
+<li><em>Reusability</em></li>
+<li><em>Composability</em></li>
+<li><em>Scalability</em></li>
+<li><em>Maintainability</em></li>
+</ul>
+</section><section>
+<h2 id="aggregate-programming-the-idea">Aggregate programming, the idea</h2>
+<p>We have a tool that is <em>natively modular</em> and <em>natively composable</em>:</p>
+<h3 id="functional-programming-languages"><strong>functional programming languages</strong>.</h3>
+<p>What if we find a set of abstractions compatible with <em>functional programming</em>
+that allow us to build self-organising systems?</p>
+<h3 id="aggregate-programming-originally">Aggregate programming, originally:</h3>
+<ul>
+<li>The computational machine is the entire system</li>
+<li>Data items are <em>fields</em>
+<ul>
+<li>A map from <em>devices</em> to <em>values</em></li>
+</ul>
+</li>
+<li>Basic operations:
+<ul>
+<li>evolution in time: <code>rep</code></li>
+<li>perception of the surroundings (neighboring field): <code>nbr</code></li>
+<li>distributed branching (domain segmentation): <code>if</code></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h1 id="a-brief-history-of-aggregate-programming-languages">A brief history of aggregate programming languages</h1>
+</section><section>
+<h2 id="mit-proto-2006">MIT Proto, 2006</h2>
+<p><img src="https://raw.githubusercontent.com/jakebeal/MIT-Proto/refs/heads/master/webproto/figures/protorunning.png" alt="MIT Proto"></p>
+<p>The precursor of aggregate programming,
+based on the idea of <em>amorphous computing</em>.</p>
+<ul>
+<li>Originally developed at the MIT by Jonathan Bachrach and Jake Beal</li>
+<li>C++ with built-in OpenGL visualisation</li>
+<li>LISP-like syntax</li>
+<li>Re-implemented in Javascript as WebProto</li>
+<li>Discontinued in 2016 in favour of Protelis</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">def</span> <span style="color:#000">gradient</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">src</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#000;font-weight:bold">(</span><span style="color:#000">letfed</span> <span style="color:#000;font-weight:bold">((</span><span style="color:#000">n</span> <span style="color:#000">infinity</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">mux</span> <span style="color:#000">src</span> <span style="color:#0000cf;font-weight:bold">0</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">min-hood</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">+</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">nbr</span> <span style="color:#000">n</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">nbr-range</span><span style="color:#000;font-weight:bold">))))))</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#000">n</span><span style="color:#000;font-weight:bold">))</span>
+</span></span></code></pre></div></section><section>
+<h2 id="protelis-2015"><a href="https://protelis.github.io/">Protelis, 2015</a></h2>
+<p><video width="1080" height="450" autoplay="" controls="" loop=""><source data-src="https://protelis.github.io/images/mapehd-small-h264.mp4" type="video/webm"></video></p>
+<p>The first higher-order aggregate programming language.</p>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">def</span> <span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">share</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">distance</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">mux</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#0000cf;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#000">foldMin</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">distance</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#3465a4">self</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">nbrRange</span><span style="color:#000;font-weight:bold">())</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></div>
+<div class="col "><ul>
+<li>Originally developed at BBN Technologies and the University of Bologna primarily by Danilo Pianini
+<ul>
+<li>with support from Jake Beal and Mirko Viroli</li>
+</ul>
+</li>
+<li>Stand-alone, JVM-based, Java-interoperable domain-specific language
+<ul>
+<li>Based on <a href="https://eclipse.dev/Xtext/">Xtext</a></li>
+<li><em>weakly typed</em></li>
+</ul>
+</li>
+<li>Introduces the higher-order field calculus</li>
+<li>Actively maintained, but feature-frozen</li>
+</ul>
+</div></div>
+</div>
+</section><section>
+<h2 id="scafi-scala-fields-2016"><a href="https://scafi.github.io/">ScaFi (Scala Fields), 2016</a></h2>
+<p>The first <em>internal DSL</em> implementing aggregate programming.</p>
+<img src="https://user-images.githubusercontent.com/23448811/224012411-fbef5948-c546-49fa-b411-f5662831ef1b.gif" width="500px">
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">def</span> <span style="color:#000">distanceTo</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#204a87;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">Boolean</span><span style="color:#ce5c00;font-weight:bold">)</span><span style="color:#204a87;font-weight:bold">:</span> <span style="color:#204a87;font-weight:bold">Double</span> <span style="color:#ce5c00;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000">rep</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">PositiveInfinity</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">d</span> <span style="color:#204a87;font-weight:bold">=&gt;</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">mux</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#000">foldHoodPlus</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">PositiveInfinity</span><span style="color:#ce5c00;font-weight:bold">)(</span><span style="color:#000">Math</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">min</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">nbr</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">d</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#000">nbrRange</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ce5c00;font-weight:bold">})</span>
+</span></span></code></pre></div></div>
+<div class="col "><ul>
+<li>Originally developed at the University of Bologna by Mirko Viroli and Roberto Casadei</li>
+<li>Internal DSL written in Scala 2</li>
+<li>Strongly typed, uses the Scala 2 type system natively</li>
+<li>JVM and JS versions</li>
+<li>Different semantics: <em>partial alignment</em>, <em>non-reified fields</em></li>
+<li>Actively maintained, but feature-frozen (Scafi 3 based on Scala 3 is under development)</li>
+</ul>
+</div></div>
+</div>
+</section><section>
+<h2 id="fcpp-2019"><a href="https://scafi.github.io/">FCPP, 2019</a></h2>
+<img src="https://fcpp.github.io/assets/static/screenshot.png" width="500px">
+<p>The first <em>native</em> (C++14) implementation of aggregate programming.</p>
+
+<div class="container w-100 m-0 p-0">
+    <div class="row "><div class="col "><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">DEF</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">double</span> <span style="color:#000">abf</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ARGS</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">CODE</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">nbr</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">CALL</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">INF</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">field</span><span style="color:#ce5c00;font-weight:bold">&lt;</span><span style="color:#204a87;font-weight:bold">double</span><span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#000">d</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">double</span> <span style="color:#000">v</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">source</span> <span style="color:#ce5c00;font-weight:bold">?</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">INF</span><span style="color:#000;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">min_hood</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">CALL</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">d</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#000">node</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">nbr_dist</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#000">v</span><span style="color:#000;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">});</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></div>
+<div class="col "><ul>
+<li>Originally developed at the University of Turin by Giorgio Audrito</li>
+<li>Very high performance</li>
+<li>C++14 library</li>
+<li><em>Manually aligned</em> via macros</li>
+<li>Can work on resource-restricted devices</li>
+</ul>
+</div></div>
+</div>
+</section><section>
+<h2 id="what-is-missing">What is missing?</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Properties</th>
+          <th>Protelis</th>
+          <th>ScaFi</th>
+          <th>FCPP</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>JVM compatibility</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Android compatibility</td>
+          <td>~</td>
+          <td>~</td>
+          <td>~</td>
+      </tr>
+      <tr>
+          <td>JS compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Native compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td>~</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>iOS compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Strictly typed</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Transparent alignment</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Complete alignment</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Exchange support</td>
+          <td>~</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Reified fields</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+  </tbody>
+</table>
+</section><section>
+<h2 id="a-matter-of-trade-offs">A matter of trade-offs</h2>
+<p><em>Internal</em> DSLs have several desirable features:</p>
+<ul>
+<li>They are <em>easier to maintain</em>, as the syntax, compiler, and tooling are shared with the host language</li>
+<li>They are more <em>familiar</em> to mainstream programmers
+<ul>
+<li>no need to learn an entire new language, it is just a library</li>
+</ul>
+</li>
+<li>They can use types from the host language</li>
+</ul>
+<p>but they also have some critical issues:</p>
+<ul>
+<li>Their <em>syntax is restricted</em> to valid fragments in the host language</li>
+<li>Language-level mechanisms, such as <strong>alignment</strong>, may “boil” up to the surface, making the language unpleasant
+<ul>
+<li>and <em>violating information hiding</em></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="alignment-in-short">Alignment, in short</h2>
+<p><img src="align.svg" alt=""></p>
+<p>structurally-equal programs <em>can communicate</em></p>
+</section><section>
+<h2 id="alignment-in-short-1">Alignment, in short</h2>
+<p><img src="dealign.svg" alt=""></p>
+<p>branching must break alignment</p>
+</section><section>
+<h2 id="alignment-when-programming">Alignment when programming</h2>
+<ul>
+<li>Alignment is a <strong>low-level mechanism</strong> and as such should be <strong>hidden</strong> when writing aggregate code
+<ul>
+<li>Just as memory references are abstracted away when programming in Kotlin or Java</li>
+</ul>
+</li>
+<li>Implementing alignment requires maintaining your own stack, so that when a communication act happens
+the information can be associated to the stack frame</li>
+</ul>
+<p>Different frameworks make different choices:</p>
+<ul>
+<li><strong>Protelis</strong> hides alignment under the hood
+<ul>
+<li>It can do so because it is an <em>external</em> DSL whose interpreter has been realized from zero</li>
+</ul>
+</li>
+<li><strong>Scafi</strong> makes several compromises to align
+<ul>
+<li>Fields are <em>not reified</em>, namely, operations of fields can be executed in dedicated contexts (<code>foldHood</code>)
+but there is no way to have a <code>Field</code>-typed object</li>
+<li>Similar programs that should not align may align in Scafi (<em>weak alignment</em>)</li>
+<li>Functions are aligned via a stack lookup (<code>aggregate</code> function), exposing a low-level mechanism and compromising performance</li>
+</ul>
+</li>
+<li><strong>FCPP</strong> relies on <em>C macros</em> to align
+<ul>
+<li>Alignment is <em>not transparent</em></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="why-collektive">Why Collektive</h2>
+<img src="https://github.com/Collektive/collektive/raw/master/site/static/img/collektive-logo-white-background-round.svg" width="300px">
+<p>Collektive answers the question:</p>
+<blockquote>
+<p>what if we modify the host language compiler to align code strongly and transparently?</p>
+</blockquote>
+<p>Collektive used Kotlin to do so as:</p>
+<ol>
+<li>Kotlin is becoming a reference language for mobile programming (Android is Kotlin-first)</li>
+<li>Kotlin is modern and supports nice-looking DSLs</li>
+<li>The Kotlin compiler can be enriched via <em>plugins</em></li>
+<li>Kotlin is multiplatform, generating bindings for the JVM, native (incl. iOS), JS, and WASM</li>
+</ol>
+</section><section>
+<h2 id="collektive-goals">Collektive goals</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Properties</th>
+          <th>Protelis</th>
+          <th>ScaFi</th>
+          <th>FCPP</th>
+          <th>Collektive</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>JVM compatibility</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Android compatibility</td>
+          <td>~</td>
+          <td>~</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>JS compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Native compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>iOS compatibility</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Strictly typed</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Transparent alignment</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Complete alignment</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Exchange support</td>
+          <td>~</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+      <tr>
+          <td>Reified fields</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+          <td><i class="fa-solid fa-check" style="color: green;"></i>
+</td>
+      </tr>
+  </tbody>
+</table>
+</section><section>
+<h1 id="collektive-how-it-feels">Collektive: how it feels</h1>
+</section><section>
+<h2 id="a-few-algorithms-you-have-seen-in-previous-classes">A few algorithms you have seen in previous classes</h2>
+<h3 id="adaptive-bellman-ford-hop-count">Adaptive Bellman-Ford (hop count)</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distances</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distances</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">when</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">source</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#0000cf;font-weight:bold">0.0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><ul>
+<li>what happens if we move <code>throughNeighbor</code> inside the <code>when</code>?</li>
+<li>what happens if we use <code>Int</code>s or <code>Long</code>s instead of <code>Double</code>s?</li>
+</ul>
+<h3 id="adaptive-bellman-ford-with-custom-metric">Adaptive Bellman-Ford (with custom metric)</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distances</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">distances</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">when</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">source</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#0000cf;font-weight:bold">0.0</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h3 id="adaptive-channel">Adaptive Channel</h3>
+<h4 id="broadcast">Broadcast</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Utility class, we can use Kotlin data types freely
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">data</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;(</span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">distance</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">value</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">T</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Comparable</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">operator</span> <span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">plus</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">distance</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">this</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">distance</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">distance</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">override</span> <span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">compareTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">other</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;):</span> <span style="color:#000">Int</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distance</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">compareTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">other</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">distance</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">override</span> <span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">toString</span><span style="color:#000;font-weight:bold">():</span> <span style="color:#000">String</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#4e9a06">"</span><span style="color:#4e9a06">$value</span><span style="color:#4e9a06">@</span><span style="color:#4e9a06">$distance</span><span style="color:#4e9a06">"</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Simple broadcast implementation
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">inline</span> <span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">reified</span> <span style="color:#000">T</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">broadcast</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">T</span><span style="color:#000;font-weight:bold">):</span> <span style="color:#000">T</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">top</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">infinity</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">myDistanceValue</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">top</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distancesToValues</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">closest</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distancesToValues</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">?:</span> <span style="color:#000">top</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">DistanceValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">0.0</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000">closest</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">1.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">myDistanceValue</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">value</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h4 id="distance-between-two-sources">Distance between two sources</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distance</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">broadcast</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">destination</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">))</span>
+</span></span></code></pre></div><h4 id="channel">Channel</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">channel</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">width</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;):</span> <span style="color:#000">Boolean</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">destination</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#000">distance</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">width</span>
+</span></span></code></pre></div><h4 id="channel-around-obstacles">Channel around obstacles</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Short-circuiting boolean operations work as branches!
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">channelAroundObstacles</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">isObstacle</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">width</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;):</span> <span style="color:#000">Boolean</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">!is</span><span style="color:#000">Obstacle</span> <span style="color:#ce5c00;font-weight:bold">&amp;&amp;</span> <span style="color:#000">channel</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">destination</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">width</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div></section><section>
+<h1 id="collektive-under-the-hood">Collektive: under the hood</h1>
+</section><section>
+<h2 id="general-structure">General structure</h2>
+<ul>
+<li><strong>Domain-Specific Language</strong>
+<ul>
+<li><em>Base abstractions</em>
+<ul>
+<li><code>Field</code></li>
+<li><code>Aggregate</code></li>
+<li><code>PurelyLocal</code></li>
+<li><code>project(Field)</code></li>
+</ul>
+</li>
+<li><em>Core Machinery</em>
+<ul>
+<li>Interpreter implementation</li>
+<li>Network stub</li>
+</ul>
+</li>
+<li>Compiled with the <strong>Compiler Plugin</strong> using the <strong>Gradle Plugin</strong></li>
+</ul>
+</li>
+<li><strong>Compiler Plugin</strong>
+<ul>
+<li>Requires the <em>Base Abstractions</em></li>
+</ul>
+</li>
+<li><strong>Gradle Plugin</strong>
+<ul>
+<li>Applies the <strong>Compiler plugin</strong> to any project</li>
+</ul>
+</li>
+<li><strong>Collektivize</strong>
+<ul>
+<li>A Gradle plugin that generates “fielded” methods automatically</li>
+</ul>
+</li>
+<li><strong>Standard Library</strong>
+<ul>
+<li>Compiled with the <strong>Compiler Plugin</strong> using the <strong>Gradle Plugin</strong>
+<ul>
+<li>Functions for common operations</li>
+<li>Uses <strong>Collektivize</strong> to “field” the Kotlin standard library</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="domain-specific-language">Domain-specific language</h2>
+<p>Collektive introduces the following important abstractions:</p>
+<ul>
+<li><code>Field</code>: a view of a value, enclosing is local value and the neighboring values
+<ul>
+<li>fields can be manipulated using <code>map</code> and combined with <code>alignedMap</code></li>
+<li>fields can be converted into Kotlin <code>Map</code>s, using <code>toMap</code> or <code>excludeSelf</code></li>
+<li>fields can be converted to “scalar” values using <code>fold</code> and <code>reduce</code> operations</li>
+</ul>
+</li>
+<li><code>Aggregate</code>: the context of aggregate operations. Provides (internally or through extension functions)
+<ul>
+<li>(<em>Core operation</em>) <code>alignedOn(pivot: Any?, () -&gt; Result): Result</code>
+<ul>
+<li>aligns the code on the given pivot and runs the provided operation</li>
+</ul>
+</li>
+<li>(<em>Core operation</em>) <code>exchanging(initial: Shared, body: YieldingScope&lt;Field&lt;ID, Shared&gt;, Returned&gt;): Field&lt;ID, Shared&gt;</code>
+<ul>
+<li>generalized form of <code>exchange</code> that shares a value and can return arbitrary values</li>
+<li>all other operators except <code>alignedOn</code> could be rewritten in terms of <code>exchanging</code>, but it would be inefficient</li>
+</ul>
+</li>
+<li><code>exchange(initial: Shared, body: (Field&lt;ID, Shared&gt;) -&gt; Field&lt;ID, Shared&gt;): Field&lt;ID, Shared&gt;</code>
+<ul>
+<li><code>exchange</code> shares a value, computes over the neighborhood view of such value,
+and returns a <code>Field</code> whose contents are sent back to every neighbor</li>
+</ul>
+</li>
+<li>(<em>Core operation</em>) <code>neighboring(local: Shared): Field&lt;ID, Shared&gt;</code>
+<ul>
+<li>Provided a value, builds the neighboring view of such value</li>
+</ul>
+</li>
+<li><code>mapNeighborhood(local: (ID) -&gt; T): Field&lt;ID, T&gt;</code>
+<ul>
+<li>Maps every surrounding device, provided its identifier, to a value</li>
+</ul>
+</li>
+<li><code>share(initial: Shared, body: (Field&lt;ID, Shared&gt;) -&gt; Shared): Shared</code>
+<ul>
+<li>simplified version of <code>exchange</code> that sends the same value to all neighbors</li>
+</ul>
+</li>
+<li><code>sharing(initial: Shared, body: YieldingScope&lt;Field&lt;ID, Shared&gt;, Returned&gt;) -&gt; YieldingResult&lt;Shared, Returned&gt;): Returned</code>
+<ul>
+<li>generalized version of <code>share</code> that can return arbitrary values</li>
+</ul>
+</li>
+<li><code>evolve(initial: Stored, transform: (Stored) -&gt; Stored): Stored</code>
+<ul>
+<li>evolves a value in time, starting from <code>initial</code> and computing <code>transform</code> at each round</li>
+</ul>
+</li>
+<li>(<em>Core operation</em>) <code>evolving(initial: Stored, transform: YieldingScope&lt;Stored, Returned&gt;): Returned</code>
+<ul>
+<li>generalized version of <code>evolve</code>, returning a <code>Result</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="domain-specific-language-1">Domain-specific language</h2>
+<p>Collektive is designed for the aggregate code to meld into Kotlin natively.
+Names have been selected favoring a Kotlin-friendly syntax instead of the literature terms.</p>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Literature</strong></th>
+          <th><strong>Collektive</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>rep</code></td>
+          <td><code>evolve</code></td>
+      </tr>
+      <tr>
+          <td><code>nbr</code></td>
+          <td><code>neighboring</code></td>
+      </tr>
+      <tr>
+          <td><code>share</code></td>
+          <td><code>share</code></td>
+      </tr>
+      <tr>
+          <td><code>exchange</code></td>
+          <td><code>exchange</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>All computations use Kotlin’s native types.</p>
+<ul>
+<li>With one caveat: types used in aggregate operations must be <code>@Serializable</code>
+<ul>
+<li>Under the hood, Collektive uses <code>kotlinx.serialization</code> to serialize the data</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="domain-specific-language-2">Domain-specific language</h2>
+<h3 id="aggregate-branching">Aggregate branching</h3>
+<p>There is a missing item in the previous table:</p>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Literature</strong></th>
+          <th><strong>Collektive</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>rep</code></td>
+          <td><code>evolve</code></td>
+      </tr>
+      <tr>
+          <td><code>nbr</code></td>
+          <td><code>neighboring</code></td>
+      </tr>
+      <tr>
+          <td><code>share</code></td>
+          <td><code>share</code></td>
+      </tr>
+      <tr>
+          <td><code>exchange</code></td>
+          <td><code>exchange</code></td>
+      </tr>
+      <tr>
+          <td><code>if</code></td>
+          <td>????</td>
+      </tr>
+  </tbody>
+</table>
+<p>Branching in aggregate programming is <em>domain segmentation</em>: operations inside a branch are <em>aligned</em>
+only with the devices that are in the same branch.</p>
+<ul>
+<li>Special problem: fields created <em>outside</em> of the branch need <strong>projection</strong>!</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Device with ID 0
+</span></span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Int</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">myAlignmentTest</span><span style="color:#000;font-weight:bold">():</span> <span style="color:#000">Unit</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">myField</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">mapNeighborhood</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myField</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// φ(localId = 0, localValue = 1), neighbors = { 1 -&gt; 1, 2 -&gt; 1, 3 -&gt; 1 }
+</span></span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">when</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">localId</span> <span style="color:#000;font-weight:bold">%</span> <span style="color:#0000cf;font-weight:bold">2</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myField</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// Branch not taken
+</span></span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">mapNeighborhood</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#0000cf;font-weight:bold">2</span> <span style="color:#000;font-weight:bold">})</span> <span style="color:#8f5902;font-style:italic">// φ(localId = 0, localValue = 2), neighbors = { 2 -&gt; 2 }
+</span></span></span><span style="display:flex;"><span>            <span style="color:#000">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myField</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// φ(localId = 0, localValue = 1), neighbors = { 2 -&gt; 1 }
+</span></span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="domain-specific-language-3">Domain-specific language</h2>
+<h3 id="the-problem-with-a-plain-dsl">The problem with a “plain” DSL</h3>
+<p>If we were okay with dealing with alignment manually, we could have used a “plain” DSL.</p>
+<p>This is what a Bellman-Ford gradient would have looked like:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">alignedOn</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"Aggregate.distanceTo(Boolean)"</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#8f5902;font-style:italic">// We need to manually align to avoid clashing with other functions with a similar structure
+</span></span></span><span style="display:flex;"><span>        <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distances</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">alignedOn</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"share(Boolean)"</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#8f5902;font-style:italic">// We need to manually align again
+</span></span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">actualMetrics</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">project</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">metric</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// The field comes from another context, hence needs projection
+</span></span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distances</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">alignedMapValues</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">actualMetrics</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#ce5c00;font-weight:bold">::</span><span style="color:#000">plus</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">when</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#000">source</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">alignedOn</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">alignedOn</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// We cannot run the computation here or the source will never send data!
+</span></span></span><span style="display:flex;"><span>                <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>Manually handling alignment and projection is akin to manual memory management in pure C:
+exposes a <em>low-level mechanism</em> and is <em>very error-prone</em>.</p>
+<ul>
+<li><strong>Alternative</strong>: never reify fields, create contexts in which operations are aligned (Scafi2)</li>
+<li><strong>Observation</strong>: alignment and projections can be <em>automatically inferred</em> from the code structure!</li>
+</ul>
+</section><section>
+<h2 id="reducing-boilerplate-through-a-compiler-plugin">Reducing boilerplate through a compiler plugin</h2>
+<h3 id="kotlin-compiler-plugins">Kotlin: compiler plugins</h3>
+<p>The Kotlin compiler is designed to be extended via <em>compiler plugins</em>.</p>
+<ul>
+<li>Compiler plugins are written in Kotlin and can be used to manipulate the Abstract Syntax Tree (AST) of a program.</li>
+<li>Changes to the AST can alter the behavior or generate code at compile time.</li>
+<li>The compiler supports <em>frontend</em> plugins for error and warning detection and <em>backend</em> plugins for code generation.</li>
+<li>Rough process:
+<ul>
+<li>Kotlin code $\Rightarrow$ compiler frontend
+$\Rightarrow$ Intermediate Representation (IR)
+$\Rightarrow$ compiler backend
+$\Rightarrow$ Modified IR
+$\Rightarrow$ Lowering
+$\Rightarrow$ Bytecode, JavaScript, Klib, LLVM IR</li>
+</ul>
+</li>
+</ul>
+<h4 id="notable-examples">Notable examples:</h4>
+<ul>
+<li><strong>KotlinX serialization</strong>
+<ul>
+<li>KotlinX serialization is a library for serializing and deserializing Kotlin objects.</li>
+<li>Annotating a class with <code>@Serializable</code> generates a serializer for that class under the hood.</li>
+<li>Methods <code>serialize</code> and <code>deserialize</code> are generated at compile time, and appear in the IDE</li>
+<li>Collektive uses this library and plugin to deal with serialization!</li>
+</ul>
+</li>
+<li><strong>Power assert</strong>
+<ul>
+<li>Power assert is a library for generating detailed error messages for assertions.</li>
+<li>In case of failure, show with detail what went wrong and where, printing the values of all variables involved in the assertion.</li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="reducing-boilerplate-through-a-compiler-plugin-1">Reducing boilerplate through a compiler plugin</h2>
+<p>The compiler plugin automatically injects calls to the alignment and projection functions where needed,
+so that the designer can write in “normal Kotlin”, letting the magic happen in the background:</p>
+<h3 id="complete-and-transparent-alignment-via-compiler-plugin">Complete and transparent alignment via compiler plugin</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">share</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">distances</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">distances</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">alignedMapValues</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">metric</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#ce5c00;font-weight:bold">::</span><span style="color:#000">plus</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="reducing-boilerplate-through-a-compiler-plugin-2">Reducing boilerplate through a compiler plugin</h2>
+<h3 id="bonus-static-analyzer-via-frontend-compiler-plugin">Bonus: static analyzer via frontend compiler plugin</h3>
+<p>We can write our compiler plugin to
+<em>statically analyze</em> the code and    provide hints. For instance, consider:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Any</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000">Aggregate</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">&gt;.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Boolean</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">ID</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;)</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">evolve</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">throughNeighbor</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">it</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">metric</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">minValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">base</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">POSITIVE_INFINITY</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">source</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#0000cf;font-weight:bold">0.0</span> <span style="color:#204a87;font-weight:bold">else</span> <span style="color:#000">throughNeighbor</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><ul>
+<li>It is a valid but <em>inefficient</em> implementation of Bellman-Ford (can you tell why?)</li>
+<li>The compiler plugin can <em>detect the suboptimal pattern</em> and provide hints:</li>
+</ul>
+<p><img src="idea-pre-warning.png" alt=""></p>
+<p><img src="idea-warning.png" alt=""></p>
+</section><section>
+<h2 id="applying-the-compiler-plugin">Applying the compiler plugin</h2>
+<p>Kotlin is typically compiled with <a href="https://gradle.org/">Gradle</a>, a build system that supports Kotlin natively.</p>
+<p>The Collektive Kotlin compiler plugin needs to be applied to the Kotlin compilation process for aggregate code to be generated.</p>
+<p>The standard way is to build a Gradle plugin that under the hood applies the Kotlin compiler plugin.</p>
+<p>Declaring the plugin in the <code>plugins</code> block applies Collektive to the project:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">plugins</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">kotlin</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"jvm"</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// Or kotlin("multiplatform")
+</span></span></span><span style="display:flex;"><span>    <span style="color:#000">id</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive.collektive-plugin"</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">version</span> <span style="color:#4e9a06">"&lt;collektive version&gt;"</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="importing-the-dsl">Importing the DSL</h2>
+<p>Once the plugin is applied, we need to import the Collektive DSL to write aggregate code.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">dependencies</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-dsl:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>In multiplatform projects:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">kotlin</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">sourceSets</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">commonMain</span> <span style="color:#204a87;font-weight:bold">by</span> <span style="color:#000">getting</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">dependencies</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-dsl:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>You are ready! Code using Aggregate contexts will get aligned and projected automatically by the compiler plugin.</p>
+</section><section>
+<h2 id="standard-library">Standard library</h2>
+<p>The DSL module contains the bare minimum to write aggregate code.</p>
+<p>When creating richer applications, a standard library is needed to provide common operations.</p>
+<p>The standard library in collektive is built on top of the DSL module and provides:</p>
+<ul>
+<li>functions to reduce fields to values</li>
+<li>functions to combine fields with other fields or scalars</li>
+<li>functions to propagate information</li>
+<li>functions to accumulate information</li>
+<li>functions to break the network symmetry (e.g., performing leader election)</li>
+</ul>
+<p>The standard library can be imported in the same way as the DSL module:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">dependencies</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-dsl:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-stdlib:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>In multiplatform projects:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#000">kotlin</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">sourceSets</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">commonMain</span> <span style="color:#204a87;font-weight:bold">by</span> <span style="color:#000">getting</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">dependencies</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-dsl:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#000">implementation</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">"it.unibo.collektive:collektive-stdlib:&lt;collektive version&gt;"</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></section><section>
+<h2 id="collektivize">Collektivize</h2>
+<img src="https://github.com/Collektive/collektive/raw/master/site/static/img/collektivize-logo.svg" width="300px">
+<p>Collektivize (logo is temporary) is a Gradle plugin that <em>generates “fielded” methods</em> automatically.</p>
+<p>When using aggregate programming,
+we would like to manipulate fields and other data structures as if they were “scalars”.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">x</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;*,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">TODO</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">y</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Field</span><span style="color:#000;font-weight:bold">&lt;*,</span> <span style="color:#000">Double</span><span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">TODO</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">alignedMapValues</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">y</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">a</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">b</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">a</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">b</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// Verbose!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">x</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000">y</span> <span style="color:#8f5902;font-style:italic">// Shorter and more readable!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">x</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">mapValues</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#204a87;font-weight:bold">it</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#0000cf;font-weight:bold">3</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// Verbose!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">x</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#0000cf;font-weight:bold">3</span> <span style="color:#8f5902;font-style:italic">// Shorter and more readable!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">TODO</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#000">readText</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#000">map</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#204a87;font-weight:bold">it</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">lines</span><span style="color:#000;font-weight:bold">().</span><span style="color:#000">first</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">}</span> <span style="color:#8f5902;font-style:italic">// Verbose!
+</span></span></span><span style="display:flex;"><span><span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">File</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">TODO</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#000">readText</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#000">first</span><span style="color:#000;font-weight:bold">()</span>
+</span></span></code></pre></div><p>Collektivize runs through existing Kotlin code and generates the “fielded” methods automatically.
+The project is still experimental, but we currently use it to generate fielded methods for primitives.</p>
+</section><section>
+<h1 id="collektive-prototypation">Collektive: prototypation</h1>
+</section><section>
+<h2 id="we-need-simulation">We need simulation</h2>
+<p>When developing classic software systems, we use tests and debuggers to guide us through the development process
+and to verify the correctness of our code.</p>
+<p>Typically:</p>
+<ol>
+<li>Define the abstractions</li>
+<li>Prepare the test plan (assuming <em>Test Driven Development–TDD</em>)</li>
+<li>Design &amp; Implement</li>
+</ol>
+<ul>
+<li>When writing aggregate code, testing means <em>simulating</em> the system.
+<ul>
+<li>(well, technically, also testing non-aggregate code requires simulation, but the simulator is the PC in which the code runs)</li>
+</ul>
+</li>
+<li>Running on the local device alone is a <em>trivial case</em> that won’t intercept most of the issues that may arise
+when running on a real network.</li>
+</ul>
+<h3 id="simulation-in-the-aggregate-software-development-process">Simulation in the aggregate software development process</h3>
+<p>Simulation is a fundamental part of the aggregate software development process, and it is used in several ways:</p>
+<ul>
+<li>When <strong>building a prototype</strong>, to quickly assess the collektive behavior of a network</li>
+<li>When <strong>testing</strong> the code, and especially in <em>regression tests</em>, to verify that the code works as expected</li>
+<li>When <strong>debugging</strong>, to replicate the behavior of a system across multiple runs</li>
+<li>When <strong>profiling</strong> the code, to understand the performance of the system</li>
+</ul>
+</section><section>
+<h2 id="simulators-for-aggregate-programming">Simulators for aggregate programming</h2>
+<p>There are two macro-categories of simulators for aggregate programming:</p>
+<ul>
+<li><strong>Internal simulators</strong>:
+<ul>
+<li>The simulator is bundled with the aggregate programming language distribution</li>
+<li><em>Pro</em>: dedicated simulator</li>
+<li><em>Pro</em>: optimizable and generally high-performing</li>
+<li><strong>Con</strong>: not portable across different implementations of the field calculus</li>
+<li><strong>Con</strong>: high maintenance cost</li>
+<li><strong>Con</strong>: generally feature-limited (a consequence of the previous point)</li>
+</ul>
+</li>
+<li><strong>External simulators</strong>:
+<ul>
+<li>The simulator is a separate software that can run aggregate code</li>
+<li><em>Pro</em>: separation between the tools, hence only the “glue” connecting the tools needs to be maintained</li>
+<li><em>Pro</em>: potentially portable to multiple implementations of the field calculus</li>
+<li><em>Pro</em>: typically feature-rich</li>
+<li><strong>Con</strong>: non-dedicated, so some features may be tricky to implement</li>
+<li><strong>Con</strong>: general-purpose: some optimizations may not be possible</li>
+</ul>
+</li>
+</ul>
+<p>Often, languages have both, with the internal simulator often used for testing and, at most, prototypation.</p>
+</section><section>
+<h2 id="simulators-for-aggregate-programming-1">Simulators for aggregate programming</h2>
+<h3 id="examples">Examples</h3>
+<ul>
+<li><strong>MIT Proto</strong>: built-in internal simulator only</li>
+<li><strong>Protelis</strong>: Uses <a href="https://alchemistsimulator.github.io/">Alchemist</a> both for testing (using an old version) and for prototypation (using the latest version)</li>
+<li><strong>ScaFi</strong>: dedicated Scala simulator for testing and for the web version, integration with <a href="https://alchemistsimulator.github.io/">Alchemist</a> for prototypation and debugging</li>
+<li><strong>FCPP</strong>: internal simulator for testing and prototypation, integration with <a href="http://gazebosim.org/">Gazebo</a> for robotics scenarios</li>
+<li><strong>Collektive</strong>: minimal internal simulator for internal testing only, integration with <a href="https://alchemistsimulator.github.io/">Alchemist</a> for prototypation and debugging</li>
+</ul>
+</section><section>
+<h2 id="simulators-for-aggregate-programming-2">Simulators for aggregate programming</h2>
+<h3 id="alchemist"><a href="https://alchemistsimulator.github.io/">Alchemist</a></h3>
+<p><a href="https://alchemistsimulator.github.io/">https://alchemistsimulator.github.io/</a></p>
+<video loop="" playsinline="" autoplay="" muted="" style="max-width: 800px; display: inline-block; ">
+  <source src="https://alchemistsimulator.github.io/home-animation.mp4" type="video/mp4">
+  If your browser supported the video tag, there would be a nice video.
+</video>
+<p>Alchemist is a general-purpose simulator for networked systems.</p>
+<ul>
+<li>Relatively simple environment with nodes and links</li>
+<li>Supports maps and floor plans (in image form)</li>
+<li>Support for simulating networks of tuple spaces (its initial goal in 2011)</li>
+<li>Support for biological multi-cellular simulations (cellular sizes, membranes, molecular channels…)</li>
+<li>Support for <em>Protelis</em> and <em>ScaFi</em></li>
+<li><em>Collektive</em> features an integration that will be moved to Alchemist once stable</li>
+</ul>
+</section><section>
+<h2 id="simulators-for-aggregate-programming-3">Simulators for aggregate programming</h2>
+<h3 id="how-to-be-a-good-engineer">How to be a good engineer</h3>
+<h4 id="the-aggregate-code"><em>The aggregate code <strong>must never</strong> reference entities of the simulator</em></h4>
+<ul>
+<li>Simulators run a <em>model</em> of the world, and often expose <em>shortcuts</em> that are impossible in real life.</li>
+<li>Assumptions from the simulator may not hold in real life</li>
+<li>We don’t want an entire simulator to get embedded with our program
+<ul>
+<li>It is like having JUnit or Kotlin.test or Kotest embedded in our application</li>
+</ul>
+</li>
+</ul>
+<h4 id="suggestion">Suggestion</h4>
+<ul>
+<li><em>Write aggregate code in isolation</em> (ideally, in a module which does not import the simulator)</li>
+<li>Create a small piece of <em>glue code</em> that links the simulator to your aggregate code</li>
+<li>Run the problem with the simulator <em>emulating reality</em></li>
+</ul>
+<p>Your code will be portable across simulators and real-world devices with no changes!</p>
+</section><section>
+<h2 id="a-playground">A playground</h2>
+<p>A playground has been prepared at <a href="https://github.com/DanySK/collektive-exercises">https://github.com/DanySK/collektive-exercises</a>. It includes:</p>
+<ul>
+<li>a preconfigured build importing Alchemist and Collektive
+<ul>
+<li>the collektive gradle plugin is already applied</li>
+</ul>
+</li>
+<li>a few examples that work in simulation</li>
+</ul>
+<h3 id="structure">Structure</h3>
+<p>Two files in the <code>src/main/kotlin</code> folder in the <code>collektive.exercises</code> package:</p>
+<ul>
+<li><code>Playground.kt</code>
+<ul>
+<li>Contains functions and code that should not depend on the simulator</li>
+</ul>
+</li>
+<li><code>Entrypoint.kt</code>
+<ul>
+<li>Binds the simulator to the aggregate code</li>
+</ul>
+</li>
+</ul>
+<p>We can play with it!</p>
+<ul>
+<li>let’s try the adaptive Bellman-Ford algorithm</li>
+<li>let’s experiment the raising value problem</li>
+<li>let’s try the library gradient</li>
+<li>let’s build a channel</li>
+</ul>
+</section><section>
+<h2 id="advanced-examples">Advanced examples</h2>
+<h3 id="multi-robot-task-assignment">Multi-Robot Task Assignment</h3>
+<ul>
+<li><a href="https://github.com/angelacorte/experiments-2025-acsos-robots">https://github.com/angelacorte/experiments-2025-acsos-robots</a></li>
+<li>run with <code>MAX_SEEDS=1 ./gradlew runAllGraphic</code></li>
+</ul>
+<h3 id="cluster-based-multi-hop-data-transmission-in-maritime-environments">Cluster-based multi hop data transmission in maritime environments</h3>
+<ul>
+<li><a href="https://github.com/anitvam/experiment-2025-acsos-ship-clustered-comm">https://github.com/anitvam/experiment-2025-acsos-ship-clustered-comm</a></li>
+<li>run with <code>./gradlew runAllGraphic</code></li>
+</ul>
+</section><section>
+<h1 id="collektive-on-real-world-devices">Collektive on real world devices</h1>
+</section><section>
+<h2 id="collektive-network-structure">Collektive network structure</h2>
+<p><img src="network.svg" alt=""></p>
+<ul>
+<li><a href="https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-message/index.html"><code>Message</code></a> (pre-implemented) carries a payload. Can be
+<a href="https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-serialized-message/index.html">serialized</a> or
+<a href="https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-in-memory-message/index.html">in-memory</a> (for simulations).</li>
+<li><a href="https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-outbound-envelope/index.html"><code>OutboundEnvelope</code></a> (pre-implemented),
+can <a href="https://javadoc.io/static/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-outbound-envelope/prepare-message-for.html">prepare messages for delivery to a specific neighbor</a></li>
+<li><a href="https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-mailbox/index.html"><code>Mailbox</code></a> – platform-specific implementation!
+<ul>
+<li>provides the <a href="https://javadoc.io/static/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-mailbox/current-inbound.html"><code>NeighborsData</code> with messages that are currently valid</a></li>
+<li>produces the <a href="https://javadoc.io/static/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-mailbox/deliverable-for.html"><code>Message</code> for a specific neighbor</a></li>
+<li>must be <a href="https://javadoc.io/static/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-mailbox/deliverable-received.html">notified is a new message arrives</a></li>
+</ul>
+</li>
+<li><a href="https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-neighbors-data/index.html"><code>NeighborsData</code></a> – typically implemented on the fly as an anonymous <code>object</code> inside the <code>Mailbox</code> implementation
+<ul>
+<li>Produced by the <code>Mailbox</code></li>
+<li>provides <a href="https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-neighbors-data/data-at.html">access to the values neighbors produced at specific points in code</a></li>
+</ul>
+</li>
+</ul>
+</section><section>
+<h2 id="collektive-entrypoint">Collektive entrypoint</h2>
+<ul>
+<li>Collektive logical devices can be created, provided a <code>Mailbox</code>, a local identifier, (optionally) a <code>SerializationFactory</code>,
+and the program</li>
+<li>The logical device can run a cycle whenever asked to</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">myAggregateDevice</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Collektive</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myId</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">myMailbox</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#8f5902;font-style:italic">// Here the aggregate context is available!
+</span></span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">myMetric</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">gpsPosition</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#000">mapValues</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#204a87;font-weight:bold">it</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">distanceTo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">gpsPosition</span><span style="color:#000;font-weight:bold">())</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">myAggregateFunction</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myMetric</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">myAggregateDevice</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">cycle</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#8f5902;font-style:italic">// Runs the cycle
+</span></span></span></code></pre></div><ul>
+<li>The execution returns the value computed by the provided program:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">myAggregateDevice</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">Collektive</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">myId</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">myMailbox</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">roundResult</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#000">Int</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">myAggregateDevice</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">cycle</span><span style="color:#000;font-weight:bold">()</span>
+</span></span></code></pre></div></section><section>
+<h2 id="collektive-on-android">Collektive on Android</h2>
+<p>We prepared a template project for Collektive on Android: <a href="https://github.com/Collektive/collektive-example-android-bt">https://github.com/Collektive/collektive-example-android-bt</a></p>
+<ul>
+<li>Searches for neighboring devices using Bluetooth</li>
+<li>Exchanges messages via MQTT (using <a href="https://github.com/nicolasfara/mktt">Mktt</a>)</li>
+<li>Uses Compose for the UI</li>
+<li>The entrypoint and the core of the application is:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="nohighlight" data-noescape=""><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@RequiresPermission</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">allOf</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#000">Manifest</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">permission</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">BLUETOOTH_ADVERTISE</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Manifest</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">permission</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">BLUETOOTH_SCAN</span><span style="color:#000;font-weight:bold">])</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">private</span> <span style="color:#204a87;font-weight:bold">suspend</span> <span style="color:#204a87;font-weight:bold">fun</span> <span style="color:#000">collektiveProgram</span><span style="color:#000;font-weight:bold">():</span> <span style="color:#000">Collektive</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Uuid</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">Set</span><span style="color:#000;font-weight:bold">&lt;</span><span style="color:#000">Uuid</span><span style="color:#000;font-weight:bold">&gt;&gt;</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">val</span> <span style="color:#000">mailbox</span> <span style="color:#000;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">MqttMailbox</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">deviceId</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">"broker.hivemq.com"</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">dispatcher</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">dispatcher</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">context</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">getApplication</span><span style="color:#000;font-weight:bold">())</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">Collektive</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">deviceId</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">mailbox</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">neighboring</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">localId</span><span style="color:#000;font-weight:bold">).</span><span style="color:#000">neighbors</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toSet</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>Use this example to create your Android Aggregate applications!</p>
+</section><section>
+<h1 id="collektive-aggregate-programming-in-kotlin-multiplatform-1">Collektive: Aggregate programming in Kotlin Multiplatform</h1>
+<h3 id="danilo-pianini-1"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini — danilo.pianini@unibo.it</a></h3>
+<h4 id="seminar-in-programmazione-di-sistemi-mobile--università-di-torino-1">Seminar in “Programmazione di Sistemi Mobile” @ Università di Torino</h4>
+<p><a href="#0">start over</a></p>
+</section>
+
+  
+
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src="/slides-2025-unito-progmob-collektive/reveal-hugo/object-assign.js"></script>
+
+<a href="/slides-2025-unito-progmob-collektive/reveal-js/dist/print/" id="print-location" style="display: none;"></a>
+
+<script type="application/json" id="reveal-hugo-site-params">{"custom_theme":"custom-theme.scss","custom_theme_compile":true,"custom_theme_options":{"enablesourcemap":true,"targetpath":"css/custom-theme.css"},"height":"1080","highlight_theme":"solarized-dark","history":true,"mermaid":[{}],"slide_number":true,"theme":"league","transition":"slide","transition_speed":"fast","width":"1920"}</script>
+<script type="application/json" id="reveal-hugo-page-params">null</script>
+
+<script src="/slides-2025-unito-progmob-collektive/reveal-js/dist/reveal.js"></script>
+
+
+  
+  
+  <script type="text/javascript" src="/slides-2025-unito-progmob-collektive/reveal-js/plugin/markdown/markdown.js"></script>
+  
+  <script type="text/javascript" src="/slides-2025-unito-progmob-collektive/reveal-js/plugin/highlight/highlight.js"></script>
+  
+  <script type="text/javascript" src="/slides-2025-unito-progmob-collektive/reveal-js/plugin/zoom/zoom.js"></script>
+  
+  <script type="text/javascript" src="/slides-2025-unito-progmob-collektive/reveal-js/plugin/notes/notes.js"></script>
+  
+  
+  <script type="text/javascript" src="/slides-2025-unito-progmob-collektive/reveal-js/plugin/notes/notes.js"></script>
+
+
+
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+
+  var revealHugoPlugins = {
+    plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom ]
+   };
+  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams),
+    camelize(revealHugoPlugins));
+  Reveal.initialize(options);
+</script>
+
+
+
+
+
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+
+
+
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+<script>
+  if (/.*?(\?|&)print-pdf/.test(window.location.toString())) {
+      var ytVideos = document.getElementsByTagName("iframe")
+      for (let i = 0; i < ytVideos.length; i++) {
+          var videoFrame = ytVideos[i]
+          var isYouTube = /^https?:\/\/(www.)youtube\.com\/.*/.test(videoFrame.src)
+          if (isYouTube) {
+              console.log(`Removing ${videoFrame.src}`)
+              var parent = videoFrame.parentElement
+              videoFrame.remove()
+              var p = document.createElement('p')
+              p.append(
+                  document.createTextNode(
+                      "There was an embedded video here, but it is disabled in the printed version of the slides."
+                  )
+              )
+              p.append(document.createElement('br'))
+              p.append(
+                  document.createTextNode(
+                      `Visit instead ${
+                          videoFrame.src
+                      } or ${
+                          videoFrame.src.replace(
+                              /(^https?:\/\/(www.)youtube\.com)\/(embed\/)(\w+).*/,
+                              "https://www.youtube.com/watch?v=$4"
+                          )
+                      }`
+                  )
+              )
+              parent.appendChild(p)
+          }
+      }
+  }
+</script>
+
+
+    
+  
+
+</body></html>
