@@ -220,7 +220,7 @@ def distanceTo(source: Boolean): Double =
 
 ## [FCPP, 2019](https://fcpp.github.io/)
 
-<img src="https://fcpp.github.io/assets/static/screenshot.png" width="500px">
+<img src="https://fcpp.github.io/assets/static/screenshot.png" alt="FCPP screenshot" width="500px">
 
 The first *native* (C++14) implementation of aggregate programming.
 
