@@ -622,7 +622,7 @@ but there is no way to have a <code>Field</code>-typed object</li>
 <h2 id="domain-specific-language">Domain-specific language</h2>
 <p>Collektive introduces the following important abstractions:</p>
 <ul>
-<li><code>Field</code>: a view of a value, enclosing is local value and the neighboring values
+<li><code>Field</code>: a view of a value, enclosing its local value and the neighboring values
 <ul>
 <li>fields can be manipulated using <code>map</code> and combined with <code>alignedMap</code></li>
 <li>fields can be converted into Kotlin <code>Map</code>s, using <code>toMap</code> or <code>excludeSelf</code></li>
@@ -650,7 +650,7 @@ and returns a <code>Field</code> whose contents are sent back to every neighbor<
 </li>
 <li>(<em>Core operation</em>) <code>neighboring(local: Shared): Field&lt;ID, Shared&gt;</code>
 <ul>
-<li>Provided a value, builds the neighboring view of such value</li>
+<li>Given a value, builds the neighboring view of that value</li>
 </ul>
 </li>
 <li><code>mapNeighborhood(local: (ID) -&gt; T): Field&lt;ID, T&gt;</code>
