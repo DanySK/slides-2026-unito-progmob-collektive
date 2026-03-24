@@ -59,16 +59,16 @@ One way to tackle these challenges is through systems that *self-organise*.
 ---
 
 <div id="div1" style="width: 720px; float: left; overflow: hidden;">
-  <img src="https://danysk.github.io/Slides-2019-OYM/img/ants.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/ants.jpg" alt="Ants" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
 <div id="div2" style="width: 720px; float: left; overflow: hidden;">
-  <img src="https://danysk.github.io/Slides-2019-OYM/img/termites.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/termites.jpg" alt="Termites" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
 <div id="div3" style="width: 720px; float: left; overflow: hidden;">
-  <img src="https://danysk.github.io/Slides-2019-OYM/img/firefly.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/firefly.jpg" alt="Fireflies" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
 <div id="div4" style="width: 720px; float: left; overflow: hidden;">
-  <img src="https://danysk.github.io/Slides-2019-OYM/img/ecosystem.jpg" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
+  <img src="https://danysk.github.io/Slides-2019-OYM/img/ecosystem.jpg" alt="Ecosystem" style="position:relative; width: 100%; height: 100%; border: 0; margin:auto; overflow: hidden;"/>
 </div>
 
 ---
