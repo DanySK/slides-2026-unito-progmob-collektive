@@ -465,7 +465,7 @@ fun <ID: Any> Aggregate<ID>.channelAroundObstacles(isObstacle: Boolean, source: 
 ## Domain-specific language
 
 Collektive introduces the following important abstractions:
-* `Field`: a view of a value, enclosing is local value and the neighboring values
+* `Field`: a view of a value, enclosing its local value and the neighboring values
     * fields can be manipulated using `map` and combined with `alignedMap`
     * fields can be converted into Kotlin `Map`s, using `toMap` or `excludeSelf`
     * fields can be converted to "scalar" values using `fold` and `reduce` operations
@@ -479,7 +479,7 @@ Collektive introduces the following important abstractions:
         * `exchange` shares a value, computes over the neighborhood view of such value,
           and returns a `Field` whose contents are sent back to every neighbor
     * (*Core operation*) `neighboring(local: Shared): Field<ID, Shared>`
-        * Provided a value, builds the neighboring view of such value
+        * Given a value, builds the neighboring view of that value
     * `mapNeighborhood(local: (ID) -> T): Field<ID, T>`
         * Maps every surrounding device, provided its identifier, to a value
     * `share(initial: Shared, body: (Field<ID, Shared>) -> Shared): Shared`
