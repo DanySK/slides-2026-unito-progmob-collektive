@@ -218,7 +218,7 @@ def distanceTo(source: Boolean): Double =
 
 ---
 
-## [FCPP, 2019](https://scafi.github.io/)
+## [FCPP, 2019](https://fcpp.github.io/)
 
 <img src="https://fcpp.github.io/assets/static/screenshot.png" width="500px">
 
