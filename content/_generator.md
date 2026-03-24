@@ -756,7 +756,7 @@ The project is still experimental, but we currently use it to generate fielded m
 
 ---
 
-# Collektive: prototypation
+# Collektive: prototyping
 
 ---
 
@@ -767,7 +767,7 @@ and to verify the correctness of our code.
 
 Typically:
 1. Define the abstractions
-2. Prepare the test plan (assuming *Test Driven Development--TDD*)
+2. Prepare the test plan (assuming *Test-Driven Development*, TDD)
 3. Design & Implement
 
 * When writing aggregate code, testing means *simulating* the system.
@@ -778,7 +778,7 @@ Typically:
 ### Simulation in the aggregate software development process
 
 Simulation is a fundamental part of the aggregate software development process, and it is used in several ways:
-* When **building a prototype**, to quickly assess the collektive behavior of a network
+* When **building a prototype**, to quickly assess the collective behavior of a network
 * When **testing** the code, and especially in *regression tests*, to verify that the code works as expected
 * When **debugging**, to replicate the behavior of a system across multiple runs
 * When **profiling** the code, to understand the performance of the system
