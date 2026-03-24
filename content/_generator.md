@@ -965,6 +965,19 @@ private suspend fun collektiveProgram(): Collektive<Uuid, Set<Uuid>> {
 
 Use this example to create your Android Aggregate applications!
 
+---
+
+## Collektive on mobile multiplatform
+
+We prepared a template project for Collektive on mobile multiplatform: https://github.com/Collektive/echo-app
+
+* Put the aggregate logic in shared Kotlin Multiplatform code
+* Keep device-specific integration in thin platform adapters
+    * permissions, transports, sensors, notifications, lifecycle...
+* Let the app UI observe the result of aggregate computations, instead of mixing UI and aggregate logic
+* Reuse the same aggregate algorithms across Android and iOS, changing only the glue to the platform services
+
+Use this example as a starting point for cross-platform Aggregate applications!
 
 ---
 
