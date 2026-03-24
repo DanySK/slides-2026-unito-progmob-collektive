@@ -897,7 +897,7 @@ We can play with it!
 
 ---
 
-# Collektive on real world devices
+# Collektive on real-world devices
 
 ---
 
@@ -913,7 +913,7 @@ We can play with it!
 * [`Mailbox`](https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-mailbox/index.html) -- platform-specific implementation!
     * provides the [`NeighborsData` with messages that are currently valid](https://javadoc.io/static/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-mailbox/current-inbound.html)
     * produces the [`Message` for a specific neighbor](https://javadoc.io/static/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-mailbox/deliverable-for.html)
-    * must be [notified is a new message arrives](https://javadoc.io/static/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-mailbox/deliverable-received.html)
+    * must be [notified when a new message arrives](https://javadoc.io/static/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-mailbox/deliverable-received.html)
 * [`NeighborsData`](https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-neighbors-data/index.html) -- typically implemented on the fly as an anonymous `object` inside the `Mailbox` implementation
     * Produced by the `Mailbox`
     * provides [access to the values neighbors produced at specific points in code](https://javadoc.io/doc/it.unibo.collektive/collektive-dsl/24.0.3/collektive-dsl/it.unibo.collektive.networking/-neighbors-data/data-at.html)
