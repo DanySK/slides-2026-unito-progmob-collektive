@@ -689,7 +689,7 @@ kotlin {
 }
 ```
 
-You are ready! Code using Aggregate contexts will get aligned and projected automatically by the compiler plugin.
+You are ready! Code using aggregate contexts will get aligned and projected automatically by the compiler plugin.
 
 ---
 
@@ -699,7 +699,7 @@ The DSL module contains the bare minimum to write aggregate code.
 
 When creating richer applications, a standard library is needed to provide common operations.
 
-The standard library in collektive is built on top of the DSL module and provides:
+The standard library in Collektive is built on top of the DSL module and provides:
 * functions to reduce fields to values
 * functions to combine fields with other fields or scalars
 * functions to propagate information
