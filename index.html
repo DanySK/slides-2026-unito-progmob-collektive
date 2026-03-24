@@ -1134,6 +1134,20 @@ and the program</li>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
 </span></span></code></pre></div><p>Use this example to create your Android Aggregate applications!</p>
 </section><section>
+<h2 id="collektive-on-mobile-multiplatform">Collektive on mobile multiplatform</h2>
+<p>We prepared a template project for Collektive on mobile multiplatform: <a href="https://github.com/Collektive/echo-app">https://github.com/Collektive/echo-app</a></p>
+<ul>
+<li>Put the aggregate logic in shared Kotlin Multiplatform code</li>
+<li>Keep device-specific integration in thin platform adapters
+<ul>
+<li>permissions, transports, sensors, notifications, lifecycle…</li>
+</ul>
+</li>
+<li>Let the app UI observe the result of aggregate computations, instead of mixing UI and aggregate logic</li>
+<li>Reuse the same aggregate algorithms across Android and iOS, changing only the glue to the platform services</li>
+</ul>
+<p>Use this example as a starting point for cross-platform Aggregate applications!</p>
+</section><section>
 <h1 id="collektive-aggregate-programming-in-kotlin-multiplatform-1">Collektive: Aggregate programming in Kotlin Multiplatform</h1>
 <h3 id="danilo-pianini-1"><a href="mailto:danilo.pianini@unibo.it">Danilo Pianini — danilo.pianini@unibo.it</a></h3>
 <h4 id="seminar-in-programmazione-di-sistemi-mobile--università-di-torino-1">Seminar in “Programmazione di Sistemi Mobile” @ Università di Torino</h4>
