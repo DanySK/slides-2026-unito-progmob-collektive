@@ -805,7 +805,7 @@ There are two macro-categories of simulators for aggregate programming:
     * **Con**: non-dedicated, so some features may be tricky to implement
     * **Con**: general-purpose: some optimizations may not be possible
 
-Often, languages have both, with the internal simulator often used for testing and, at most, prototypation.
+Often, languages have both, with the internal simulator often used for testing and, at most, prototyping.
 
 ---
 
@@ -813,10 +813,10 @@ Often, languages have both, with the internal simulator often used for testing a
 ### Examples
 
 * **MIT Proto**: built-in internal simulator only
-* **Protelis**: Uses [Alchemist](https://alchemistsimulator.github.io/) both for testing (using an old version) and for prototypation (using the latest version)
-* **ScaFi**: dedicated Scala simulator for testing and for the web version, integration with [Alchemist](https://alchemistsimulator.github.io/) for prototypation and debugging
-* **FCPP**: internal simulator for testing and prototypation, integration with [Gazebo](http://gazebosim.org/) for robotics scenarios
-* **Collektive**: minimal internal simulator for internal testing only, integration with [Alchemist](https://alchemistsimulator.github.io/) for prototypation and debugging
+* **Protelis**: uses [Alchemist](https://alchemistsimulator.github.io/) both for testing and for prototyping
+* **ScaFi**: dedicated Scala simulator for testing and for the web version, integration with [Alchemist](https://alchemistsimulator.github.io/) for prototyping and debugging
+* **FCPP**: internal simulator for testing and prototyping, integration with [Gazebo](http://gazebosim.org/) for robotics scenarios
+* **Collektive**: minimal internal simulator for internal testing only, integration with [Alchemist](https://alchemistsimulator.github.io/) for prototyping and debugging
 
 ---
 
