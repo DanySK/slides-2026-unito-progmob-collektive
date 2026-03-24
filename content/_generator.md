@@ -627,7 +627,7 @@ fun <ID: Any> Aggregate<ID>.distanceTo(source: Boolean, metric: Field<ID, Double
 ### Bonus: static analyzer via frontend compiler plugin
 
 We can write our compiler plugin to
-*statically analyze* the code and    provide hints. For instance, consider:
+*statically analyze* the code and provide hints. For instance, consider:
 
 ```kotlin
 fun <ID : Any> Aggregate<ID>.distanceTo(source: Boolean, metric: Field<ID, Double>) =
