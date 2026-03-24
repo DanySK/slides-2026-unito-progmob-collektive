@@ -400,10 +400,10 @@ data class DistanceValue<T>(val distance: Double, val value: T) : Comparable<Dis
 }
 
 // Simple broadcast implementation
-inline fun <ID: Any, reified T> Aggregate<ID>.broadcast(source: Boolean, value: T): T {
-    val top = DistanceValue(infinity, value)
+fun <ID: Any, T> Aggregate<ID>.broadcast(source: Boolean, value: T): T {
+    val top = DistanceValue(Double.POSITIVE_INFINITY, value)
     val myDistanceValue = share(top) { distancesToValues ->
-        val closest = distancesToValues.minValue() ?: top
+        val closest = distancesToValues.neighbors.values.min() ?: top
         if (source) DistanceValue(0.0, value) else closest + 1.0
     }
     return myDistanceValue.value
