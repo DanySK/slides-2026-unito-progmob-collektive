@@ -860,11 +860,11 @@ Your code will be portable across simulators and real-world devices with no chan
 
 ---
 
-## A playground 
+## A playground
 
 A playground has been prepared at https://github.com/DanySK/collektive-exercises. It includes:
 * a preconfigured build importing Alchemist and Collektive
-    * the collektive gradle plugin is already applied
+    * the Collektive Gradle plugin is already applied
 * a few examples that work in simulation
 
 ### Structure
@@ -877,7 +877,7 @@ Two files in the `src/main/kotlin` folder in the `collektive.exercises` package:
 
 We can play with it!
 * let's try the adaptive Bellman-Ford algorithm
-* let's experiment the raising value problem
+* let's experiment with the raising value problem
 * let's try the library gradient
 * let's build a channel
 
