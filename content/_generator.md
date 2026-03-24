@@ -602,7 +602,7 @@ The Kotlin compiler is designed to be extended via *compiler plugins*.
     * Collektive uses this library and plugin to deal with serialization!
 * **Power assert**
     * Power assert is a library for generating detailed error messages for assertions.
-    * In case of failure, show with detail what went wrong and where, printing the values of all variables involved in the assertion.
+    * In case of failure, show in detail what went wrong and where, printing the values of all variables involved in the assertion.
 
 ---
 
