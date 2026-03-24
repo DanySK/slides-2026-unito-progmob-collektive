@@ -319,7 +319,7 @@ Different frameworks make different choices:
 
 ## Why Collektive
 
-<img src="https://github.com/Collektive/collektive/raw/master/site/static/img/collektive-logo-white-background-round.svg" width="300px">
+<img src="https://github.com/Collektive/collektive/raw/master/site/static/img/collektive-logo-white-background-round.svg" alt="Collektive logo" width="300px">
 
 Collektive answers the question:
 
