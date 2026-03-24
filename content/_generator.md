@@ -361,7 +361,7 @@ Collektive used Kotlin to do so as:
 
 ```kotlin
 fun <ID: Any> Aggregate<ID>.distanceTo(source: Boolean) = share(Double.POSITIVE_INFINITY) { distances ->
-    val throughNeighbor = distances.minValue(Double.POSITIVE_INFINITY) + 1
+    val throughNeighbor = distances.neighbors.values.min() + 1
     when {
         source -> 0.0
         else -> throughNeighbor
@@ -377,10 +377,10 @@ fun <ID: Any> Aggregate<ID>.distanceTo(source: Boolean) = share(Double.POSITIVE_
 ```kotlin
 fun <ID: Any> Aggregate<ID>.distanceTo(source: Boolean, metric: Field<ID, Double>) =
     share(Double.POSITIVE_INFINITY) { distances ->
-        val throughNeighbor = (distances + metric).minValue(Double.POSITIVE_INFINITY)
+        val throughNeighbor = (distances + metric).neighbors
         when {
             source -> 0.0
-            else -> throughNeighbor
+            else -> throughNeighbor.values.min()
         }
     }
 ```
