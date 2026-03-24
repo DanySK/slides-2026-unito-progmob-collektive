@@ -733,7 +733,7 @@ kotlin {
 
 ## Collektivize
 
-<img src="https://github.com/Collektive/collektive/raw/master/site/static/img/collektivize-logo.svg" width="300px">
+<img src="https://github.com/Collektive/collektive/raw/master/site/static/img/collektivize-logo.svg" alt="Collektivize logo" width="300px">
 
 Collektivize (logo is temporary) is a Gradle plugin that *generates "fielded" methods* automatically.
 
