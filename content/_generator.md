@@ -616,10 +616,9 @@ so that the designer can write in "normal Kotlin", letting the magic happen in t
 ```kotlin
 fun <ID: Any> Aggregate<ID>.distanceTo(source: Boolean, metric: Field<ID, Double>) =
     share(Double.POSITIVE_INFINITY) { distances ->
-        val throughNeighbor = distances.alignedMapValues(metric, Double::plus)
-        if (source) 0.0 else throughNeighbor
+        val throughNeighbor = distances.alignedMapValues(metric, Double::plus).neighbors
+        if (source) 0.0 else throughNeighbor.values.min()
     }
-}
 ```
 ---
 
@@ -633,8 +632,8 @@ We can write our compiler plugin to
 ```kotlin
 fun <ID : Any> Aggregate<ID>.distanceTo(source: Boolean, metric: Field<ID, Double>) =
     evolve(Double.POSITIVE_INFINITY) {
-        val throughNeighbor = (neighboring(it) + metric).minValue(base = Double.POSITIVE_INFINITY)
-        if (source) 0.0 else throughNeighbor
+        val throughNeighbor = neighboring(it).alignedMapValues(metric, Double::plus).neighbors
+        if (source) 0.0 else throughNeighbor.values.min()
     }
 ```
 
