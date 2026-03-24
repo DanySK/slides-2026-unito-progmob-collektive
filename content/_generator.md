@@ -833,8 +833,8 @@ https://alchemistsimulator.github.io/
 Alchemist is a general-purpose simulator for networked systems.
 * Relatively simple environment with nodes and links
 * Supports maps and floor plans (in image form)
-* Support for simulating networks of tuple spaces (its initial goal in 2011)
-* Support for biological multi-cellular simulations (cellular sizes, membranes, molecular channels...)
+* Supports simulating networks of tuple spaces (its initial goal in 2011)
+* Supports biological multi-cellular simulations (cellular sizes, membranes, molecular channels...)
 * Support for *Protelis* and *ScaFi*
 * *Collektive* features an integration that will be moved to Alchemist once stable
 
