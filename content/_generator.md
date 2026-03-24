@@ -190,7 +190,7 @@ def distanceTo(source) {
 
 The first *internal DSL* implementing aggregate programming.
 
-<img src="https://user-images.githubusercontent.com/23448811/224012411-fbef5948-c546-49fa-b411-f5662831ef1b.gif" width="500px">
+<img src="https://user-images.githubusercontent.com/23448811/224012411-fbef5948-c546-49fa-b411-f5662831ef1b.gif" alt="ScaFi demo animation" width="500px">
 
 {{% multicol %}}{{% col %}}
 
