@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head>
-	<meta name="generator" content="Hugo 0.161.1">
+	<meta name="generator" content="Hugo 0.162.0">
     <meta charset="utf-8">
 <title>Collektive: Aggregate programming in Kotlin Multiplatform</title>
 <meta name="description" content="Collektive: Aggregate programming in Kotlin Multiplatform">
@@ -222,101 +222,101 @@ based on the idea of <em>amorphous computing</em>.</p>
 </section><section>
 <h2 id="what-is-missing">What is missing?</h2>
 <table>
-  <thead>
-      <tr>
-          <th>Properties</th>
-          <th>Protelis</th>
-          <th>ScaFi</th>
-          <th>FCPP</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>JVM compatibility</td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+	<thead>
+			<tr>
+					<th>Properties</th>
+					<th>Protelis</th>
+					<th>ScaFi</th>
+					<th>FCPP</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>JVM compatibility</td>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Android compatibility</td>
-          <td>~</td>
-          <td>~</td>
-          <td>~</td>
-      </tr>
-      <tr>
-          <td>JS compatibility</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>Android compatibility</td>
+					<td>~</td>
+					<td>~</td>
+					<td>~</td>
+			</tr>
+			<tr>
+					<td>JS compatibility</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Native compatibility</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>Native compatibility</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td>~</td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td>~</td>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>iOS compatibility</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>iOS compatibility</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Strictly typed</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>Strictly typed</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Transparent alignment</td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+			</tr>
+			<tr>
+					<td>Transparent alignment</td>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Complete alignment</td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+			</tr>
+			<tr>
+					<td>Complete alignment</td>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Exchange support</td>
-          <td>~</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>Exchange support</td>
+					<td>~</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Reified fields</td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+			</tr>
+			<tr>
+					<td>Reified fields</td>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-  </tbody>
+			</tr>
+	</tbody>
 </table>
 </section><section>
 <h2 id="a-matter-of-trade-offs">A matter of trade-offs</h2>
@@ -396,124 +396,124 @@ but there is no way to have a <code>Field</code>-typed object</li>
 </section><section>
 <h2 id="collektive-goals">Collektive goals</h2>
 <table>
-  <thead>
-      <tr>
-          <th>Properties</th>
-          <th>Protelis</th>
-          <th>ScaFi</th>
-          <th>FCPP</th>
-          <th>Collektive</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>JVM compatibility</td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+	<thead>
+			<tr>
+					<th>Properties</th>
+					<th>Protelis</th>
+					<th>ScaFi</th>
+					<th>FCPP</th>
+					<th>Collektive</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>JVM compatibility</td>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Android compatibility</td>
-          <td>~</td>
-          <td>~</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>Android compatibility</td>
+					<td>~</td>
+					<td>~</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>JS compatibility</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>JS compatibility</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Native compatibility</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>Native compatibility</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>iOS compatibility</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>iOS compatibility</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Strictly typed</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>Strictly typed</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Transparent alignment</td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+			</tr>
+			<tr>
+					<td>Transparent alignment</td>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Complete alignment</td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+			</tr>
+			<tr>
+					<td>Complete alignment</td>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Exchange support</td>
-          <td>~</td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+			</tr>
+			<tr>
+					<td>Exchange support</td>
+					<td>~</td>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-      <tr>
-          <td>Reified fields</td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+			</tr>
+			<tr>
+					<td>Reified fields</td>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-xmark" style="color: red;"></i>
+					<td><i class="fa-solid fa-xmark" style="color: red;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-          <td><i class="fa-solid fa-check" style="color: green;"></i>
+					<td><i class="fa-solid fa-check" style="color: green;"></i>
 </td>
-      </tr>
-  </tbody>
+			</tr>
+	</tbody>
 </table>
 </section><section>
 <h1 id="collektive-how-it-feels">Collektive: how it feels</h1>
@@ -686,30 +686,30 @@ and returns a <code>Field</code> whose contents are sent back to every neighbor<
 <p>Collektive is designed for the aggregate code to meld into Kotlin natively.
 Names have been selected favoring a Kotlin-friendly syntax instead of the literature terms.</p>
 <table>
-  <thead>
-      <tr>
-          <th><strong>Literature</strong></th>
-          <th><strong>Collektive</strong></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>rep</code></td>
-          <td><code>evolve</code></td>
-      </tr>
-      <tr>
-          <td><code>nbr</code></td>
-          <td><code>neighboring</code></td>
-      </tr>
-      <tr>
-          <td><code>share</code></td>
-          <td><code>share</code></td>
-      </tr>
-      <tr>
-          <td><code>exchange</code></td>
-          <td><code>exchange</code></td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th><strong>Literature</strong></th>
+					<th><strong>Collektive</strong></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>rep</code></td>
+					<td><code>evolve</code></td>
+			</tr>
+			<tr>
+					<td><code>nbr</code></td>
+					<td><code>neighboring</code></td>
+			</tr>
+			<tr>
+					<td><code>share</code></td>
+					<td><code>share</code></td>
+			</tr>
+			<tr>
+					<td><code>exchange</code></td>
+					<td><code>exchange</code></td>
+			</tr>
+	</tbody>
 </table>
 <p>All computations use Kotlin’s native types.</p>
 <ul>
@@ -724,34 +724,34 @@ Names have been selected favoring a Kotlin-friendly syntax instead of the litera
 <h3 id="aggregate-branching">Aggregate branching</h3>
 <p>There is a missing item in the previous table:</p>
 <table>
-  <thead>
-      <tr>
-          <th><strong>Literature</strong></th>
-          <th><strong>Collektive</strong></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><code>rep</code></td>
-          <td><code>evolve</code></td>
-      </tr>
-      <tr>
-          <td><code>nbr</code></td>
-          <td><code>neighboring</code></td>
-      </tr>
-      <tr>
-          <td><code>share</code></td>
-          <td><code>share</code></td>
-      </tr>
-      <tr>
-          <td><code>exchange</code></td>
-          <td><code>exchange</code></td>
-      </tr>
-      <tr>
-          <td><code>if</code></td>
-          <td>????</td>
-      </tr>
-  </tbody>
+	<thead>
+			<tr>
+					<th><strong>Literature</strong></th>
+					<th><strong>Collektive</strong></th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>rep</code></td>
+					<td><code>evolve</code></td>
+			</tr>
+			<tr>
+					<td><code>nbr</code></td>
+					<td><code>neighboring</code></td>
+			</tr>
+			<tr>
+					<td><code>share</code></td>
+					<td><code>share</code></td>
+			</tr>
+			<tr>
+					<td><code>exchange</code></td>
+					<td><code>exchange</code></td>
+			</tr>
+			<tr>
+					<td><code>if</code></td>
+					<td>????</td>
+			</tr>
+	</tbody>
 </table>
 <p>Branching in aggregate programming is <em>domain segmentation</em>: operations inside a branch are <em>aligned</em>
 only with the devices that are in the same branch.</p>
